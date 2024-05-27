@@ -1,5 +1,5 @@
 const express = require('express');
-const { getTranscript } = require('youtube-transcript');
+const youtubeTranscript = require('youtube-transcript');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -17,10 +17,10 @@ app.get('/transcript', async (req, res) => {
             return res.status(400).send('Invalid YouTube URL or ID');
         }
 
-        const transcript = await getTranscript(videoId);
+        const transcript = await youtubeTranscript.fetchTranscript(videoId);
         res.json(transcript);
     } catch (error) {
-        console.error(error);
+        console.error('Error fetching transcript:', error);
         res.status(500).send('An error occurred while fetching the transcript');
     }
 });
